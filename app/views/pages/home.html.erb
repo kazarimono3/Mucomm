@@ -1,6 +1,12 @@
-<% if user_signed_in? %>
-  <%= link_to "サインアウト", destroy_user_session_path, method: :delete %>
-<% end %>
-<p>トップページ</p>
+<%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
 
-<%= link_to "ボタン", "#", class: "btn btn-primary" %>
+<%= audio_tag 'sample.mp3' %>
+
+<script>
+  audiojs.events.ready(function() {
+    var as = audiojs.createAll();
+  });
+</script>
+
+<h1>Pages#home</h1>
+<p>Find me in app/views/pages/home.html.erb</p>
