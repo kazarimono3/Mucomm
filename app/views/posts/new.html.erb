@@ -1,8 +1,8 @@
-<%= form_with model: @post do |f| %>
+<%= form_with model: @post, local: true do |f| %>
   <%= f.label :caption %>
   <%= f.text_field :caption %>
   <%= f.fields_for :audios do |i| %>
-    <%= f.file_field :file, :size => 140 %>
+    <%= f.file_field :audio, :size => 140 %>
   <% end %>
   <%= f.submit "投稿", class: "btn btn-primary" %>
 <% end %>

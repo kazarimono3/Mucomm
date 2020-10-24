@@ -9,6 +9,7 @@ class PostsController < ApplicationController
 
   def create
     @post = Post.new(post_params)
+    binding.pry
     if @post.audios.present?
       @post.save
       redirect_to root_path
@@ -25,6 +26,11 @@ class PostsController < ApplicationController
 
 private
   def post_params
-    params.require(:post).permit(:caption, audios_attributes: [:file]).merge(user_id: current_user.id)
+    params.require(:post).permit(:caption).merge(user_id: current_user.id)
+  end
+
+  def audio_params
+    params.require(:post).permit(:audio).merge(user_id: current_user.id)
   end
 end
+
