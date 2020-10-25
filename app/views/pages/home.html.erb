@@ -1,0 +1,11 @@
+<%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
+<%= audio_tag Post.last.audios.last.audio.file.file.sub(/#{Rails.root}\/public/,"") %>
+
+<script>
+  audiojs.events.ready(function() {
+    var as = audiojs.createAll();
+  });
+</script>
+
+<h1>Pages#home</h1>
+<p>Find me in app/views/pages/home.html.erb</p>
