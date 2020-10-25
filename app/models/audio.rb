@@ -2,7 +2,7 @@ class Audio < ApplicationRecord
 
 	belongs_to :post
 
-	mount_uploader :file, AudioFileUploader
+	mount_uploader :audio, AudioFileUploader
 
-  validates :file, presence: true
+  validates :audio, presence: true
 end

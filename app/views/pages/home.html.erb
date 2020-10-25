@@ -1,6 +1,5 @@
 <%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
-
-<%= audio_tag 'sample.mp3' %>
+<%= audio_tag Post.last.audios.last.audio.file.file.sub(/#{Rails.root}\/public/,"") %>
 
 <script>
   audiojs.events.ready(function() {

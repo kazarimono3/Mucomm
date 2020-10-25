@@ -8,9 +8,8 @@ class PostsController < ApplicationController
   end
 
   def create
-    @post = Post.new(post_params)
+    @post = Post.create(post_params)
     if @post.audios.present?
-      @post.save
       redirect_to root_path
       flash[:notice] = "投稿が保存されました"
     else
@@ -25,6 +24,7 @@ class PostsController < ApplicationController
 
 private
   def post_params
-    params.require(:post).permit(:caption, audios_attributes: [:file]).merge(user_id: current_user.id)
+    params.require(:post).permit(:caption,audios_attributes:[:audio]).merge(user_id: current_user.id)
   end
 end
+
