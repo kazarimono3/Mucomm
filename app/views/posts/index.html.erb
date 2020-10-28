@@ -1,0 +1,105 @@
+
+<script>
+  audiojs.events.ready(function() {
+    var as = audiojs.createAll();
+  });
+</script>
+
+<style>
+      /*　プレイヤー（再生バー）の高さ、幅、背景色の指定　*/
+      .audiojs { height: 35px; background: #ffffff; width: 500px;}
+      /*　再生・停止ボタンの高さ、幅、パディングの指定　*/
+      .audiojs .play-pause { width: 35px; height: 35px; padding: 6px 0px 0px 4px; }
+      /*　再生・停止ボタンなどの p 要素　*/
+      .audiojs p { width: 50px; height: 20px; margin: -3px 0px 0px -1px; }
+      /*　進行状態・ロードの状態を表示する部分　*/
+      .audiojs .scrubber { background: #808080; width: 320px; height: 13px; margin: 10px; }
+      /*　進行状態を表示するバーの部分　*/
+      .audiojs .progress { height: 35px; width: 0px; background: #ccc; }
+      /*　ロード状態を表示するバーの部分　*/
+      .audiojs .loaded { height: 13px; background: #444444;}
+      /*　再生時間の部分　*/
+      .audiojs .time { float: left; height: 35px; line-height: 35px; }
+      .audiojs .error-message { height: 35px;line-height: 24px; }
+</style>
+
+
+
+
+<% @posts.each do |post| %>
+  <div class="col-md-8 col-md-2 mx-auto">
+    <div class="card-wrap">
+      <div class="card">
+        <div class="card-header align-items-center d-flex">
+          <%= link_to user_path(post.user), class: "no-text-decoration" do %>
+            <% if post.user.image? %>
+              <%= image_tag post.user.image.url, class: "post-profile-icon" %>
+            <% else %>
+              <%= image_tag avatar_url(post.user), class: "post-profile-icon" %>
+            <% end %>
+          <% end %>
+
+          <%= link_to user_path(post.user), class: "black-color no-text-decoration",
+            title: post.user.username do %>
+            <strong><%= post.user.username %></strong>
+          <% end %>
+
+          <% if post.user_id == current_user.id %>
+            <%= link_to post_path(post), method: :delete, class: "ml-auto mx-0 my-auto" do %>
+              <div class="delete-post-icon"></div>
+            <% end %>
+          <% end %>
+        </div>
+
+        <div class="card-img-top">
+          <%= link_to post_path(post), class: "black-color no-text-decoration", title: post.caption do %>
+            <span><h6><%= post.caption %></h6></span>
+          <% end %>
+          <%= audio_tag Post.first.audios.first.audio.file.file.sub(/#{Rails.root}\/public/,"") %>
+        </div>
+
+        <div class="card-body">
+          <div class="row parts">
+            <div id="like-icon-post-<%= post.id.to_s %>">
+              <% if post.liked_by(current_user).present? %>
+                <%= link_to "いいねを取り消す", post_like_path(post.id, post.liked_by(current_user)), method: :DELETE, remote: true, class: "loved hide-text" %>
+              <% else %>
+                <%= link_to "いいね", post_likes_path(post), method: :POST, remote: true, class: "love hide-text" %>
+              <% end %>
+            </div>
+            <%= link_to "", post_path(post), class: "post_music" %>
+          </div>
+
+          <div id="like-text-post-<%= post.id.to_s %>">
+            <%= render "like_text", { likes: post.likes } %>
+          </div>
+          
+          <div>
+            <span><strong><%= post.user.username %></strong></span>
+            <span><%= post.caption %> を投稿しました</span>
+
+            <%= link_to time_ago_in_words(post.created_at).upcase + "前", post_path(post), class: "post-time no-text-decoration" %>
+
+            <div id="comment-post-<%= post.id.to_s %>">
+              <%= render 'comment_list', { post: post } %>
+            </div>
+
+            <%= link_to time_ago_in_words(post.created_at).upcase + "前", post_path(post),
+              class: "light-color post-time no-text-decoration" %>
+            <hr>
+
+            <div class="row actions" id="comment-form-post-<%= post.id.to_s %>">
+              <%= form_with model: [post, Comment.new], class: "w-100" do |f| %>
+                <%= f.hidden_field :user_id, value: current_user.id %>
+                <%= f.hidden_field :post_id, value: post.id %>
+                <%= f.text_field :comment, class: "form-control comment-input border-0", placeholder: "コメント ...", autocomplete: :off %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+

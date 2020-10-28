@@ -1,11 +1,25 @@
 <div class="profile-wrap">
   <div class="row">
     <div class="col-md-4 text-center">
-      <%= image_tag avatar_url(@user), class: "round-img" %>
+      <% if @user.image? %>
+        <%= image_tag @user.image.url, class: "round-img" %>
+      <% else %>
+        <%= image_tag avatar_url(@user), class: "round-img" %>
+      <% end %>
+
+      <%= form_with url:avater_update_user_path, method: :put do |f| %>
+        <div class="form-group row mt-2">
+          <div class="col-mb-3">
+            <%= f.file_field :image %>
+          </div>
+        </div>
+        <%= f.submit "画像を編集", class: "btn btn-primary" %>
+      <% end %>
     </div>
+
     <div class="col-md-8">
       <div class="row">
-        <h1><%= @user.name %></h1>
+        <h1><%= @user.username %></h1>
 
           <% if @user == current_user %>
           <%= link_to "プロフィールを編集", edit_user_registration_path, class: "btn btn-outline-dark edit-profile-btn" %>
@@ -21,6 +35,7 @@
                   <span aria-hidden="true">×</span>
                 </button>
               </div>
+
               <div class="list-group text-center">
                 <%= link_to "サインアウト", destroy_user_session_path, method: :delete, class: "list-group-item list-group-item-action" %>
                 <%= link_to "キャンセル", "#", class: "list-group-item list-group-item-action", "data-dismiss": "modal" %>
@@ -29,13 +44,12 @@
           </div>
         </div>
       </div>
-      <% if @user == current_user %>
-        <div class="row">
-          <p>
-            <%= @user.email %>
-          </p>
-        </div>
-      <% end %>
+      
+      <div class="row">
+        <p>
+          <%= @user.name %>
+        </p>
+      </div>
     </div>
   </div>
 </div>
