@@ -27,9 +27,8 @@
   <div class="row post-wrap">
     <div class="col-md-8">
       <div class="card-left">
-            <span><h5><%= @post.caption %></h5></span>
-          
-          <%= audio_tag @post.audios.first.audio.file.file.sub(/#{Rails.root}\/public/,"") %>
+        <span><h5><%= @post.caption %></h5></span>
+        <%= audio_tag @post.audios.first.audio.file.file.sub(/#{Rails.root}\/public/,"") %>
       </div>
     </div>
 

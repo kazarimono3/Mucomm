@@ -13,6 +13,6 @@ class UsersController < ApplicationController
 		@user.image = params[:image]
 		@user.save!
 		redirect_to user_path
-      flash[:notice] = "投稿が保存されました"
+      flash[:notice] = "プロフィール画像を更新しました"
 	end
 end
