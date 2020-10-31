@@ -55,7 +55,7 @@
           <%= link_to post_path(post), class: "black-color no-text-decoration", title: post.caption do %>
             <span><h6><%= post.caption %></h6></span>
           <% end %>
-          <%= audio_tag Post.first.audios.first.audio.file.file.sub(/#{Rails.root}\/public/,"") %>
+          <%= audio_tag post.audios.first.audio.file.file.sub(/#{Rails.root}\/public/,"") %>
         </div>
 
         <div class="card-body">
